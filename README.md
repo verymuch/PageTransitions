@@ -24,7 +24,7 @@ PageTransition是一款实现了手机浏览器中多种页面过渡效果的插
 </div>·
 
 ###Javascript
-引用依赖文件：zepto基础库、zepto touch模块、modernizr/widget
+引用依赖文件：zepto基础库、zepto touch模块、modernizr、widget
 
 ·<script src="../../module/zepto/zepto.js"></script>
 <script src="../../module/zepto/touch.js"></script>
