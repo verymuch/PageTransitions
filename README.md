@@ -50,10 +50,10 @@ components为插件基础css文件
 	}
 
 ##对外接口方法
-*pt = new PageTransitions(config);
-*pt.next();			//切换到下一页
-*pt.prev();			//切换到上一页
-*pt.switch;			//切换到指定页，传入参数n
+* pt = new PageTransitions(config);
+* pt.next();			//切换到下一页
+* pt.prev();			//切换到上一页
+* pt.switch;			//切换到指定页，传入参数n
 
 
 ##事件
