@@ -68,10 +68,10 @@
 			<div>5</div>
 			<div>5</div>
 			<div>5</div>
-			<div>555555555555555555555555555555555555555555</div>
+			<div>5</div>
 		</div>
 		<div class="pt-page pt-page-6">
-			<div>666666666666666666666666666666666666</div>
+			<div>6</div>
 			<div>6</div>
 			<div>6</div>
 			<div>6</div>
@@ -88,23 +88,6 @@
 	<script src="../../module/modernizr.custom.js"></script>
 	<script src="../../module/widget.1.0.2.js"></script>
 	<script src="../../production/minjs/PageTransitions.min.js"></script>
-	<script>
-		$(function(){
-			var a = new PageTransitions({
-				element: $("#pt-main"),
-				index: 1,
-				loop: true,
-				direction: 'vertical', 		//默认为垂直
-				transitionType: 'cube'
-			});
-			a.on('afterSwitch',function(){
-				console.log('页面过渡完成');
-				console.log(a);
-			});
-			setTimeout(function(){
-				a.switch(8);
-			},1000);
-		});
-	</script>
+	<script src="../../production/minjs/test.min.js"></script>
 </body>
 </html>
