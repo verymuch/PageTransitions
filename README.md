@@ -43,9 +43,10 @@ PageTransition是一款实现了手机浏览器中多种页面过渡效果的插
 	<script src="../../production/minjs/PageTransitions.min.js"></script>
 
 ###CSS
-default为rest css文件
-animation为所有页面过渡效果 css文件
-components为插件基础css文件
+default为rest css文件  
+animation为所有页面过渡效果 css文件  
+components为插件基础css文件  
+
 	<link rel="stylesheet" href="../../production/mincss/default.min.css">
 	<link rel="stylesheet" href="../../production/mincss/animations.min.css">
 	<link rel="stylesheet" href="../../production/mincss/components.min.css">
