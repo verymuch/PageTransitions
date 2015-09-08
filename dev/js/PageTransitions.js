@@ -292,6 +292,7 @@ PageTransitions.prototype = {
 		
 	},
 
+	/* 此处代码繁多 主要是根据不同的过渡类型 生成过渡动画class 可跳过 */
 	/* 根据transitionType和direction的值 生成页面过渡Class类名 */
 	initTransitionClassName: function() {
 		var self = this,
