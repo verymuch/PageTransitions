@@ -1,12 +1,13 @@
 $(function(){
-	var a = new PageTransitions({
+	var a = PageTransitions({
 		element: $("#pt-main"),
 		index: 1,
 		loop: true,
 		direction: 'vertical', 		//默认为垂直
-		transitionType: 'cube'
+		transitionType: 'side'
 	});
-	a.on('afterSwitch',function(){
+
+	a.$element.on('afterSwitch',function(){
 		console.log('页面过渡完成');
 		console.log(a);
 	});
