@@ -50,7 +50,7 @@ components为插件基础css文件
 	<link rel="stylesheet" href="../../production/mincss/animations.min.css">
 	<link rel="stylesheet" href="../../production/mincss/components.min.css">
 
-##可配置参数
+###可配置参数
 	var config = {
 		element: '.pt-perspective', 	//PageTransitions元素
 		index: 0, 						//初始状态，当前元素
@@ -59,15 +59,15 @@ components为插件基础css文件
 		transitionType: 'slide',		//切换页面的过渡效果吗，默认为slide
 	}
 
-##开启页面过渡
+###开启页面过渡
 	pt = PageTransitions(config);
 
-##对外接口方法
+###对外接口方法
 
 * pt.next();			//切换到下一页
 * pt.prev();			//切换到上一页
 * pt.switch;			//切换到指定页，传入参数n，n可以为负数（从后面开始计数，-1为最后一页）
 
 
-##事件
+###事件
 	pt.on('afterSwitch',function(){});		//页面过渡完成后，触发事件
