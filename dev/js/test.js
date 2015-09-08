@@ -11,6 +11,7 @@ $(function(){
 		console.log('页面过渡完成');
 		console.log(a);
 	});
+	
 	setTimeout(function(){
 		a.switch(-1);
 	},1000);

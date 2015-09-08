@@ -302,7 +302,7 @@ PageTransitions.prototype = {
 			/* 划入划出 */
 			case 'slide':
 				if( direction == 'vertical' ) {
-					//向上滑动时，进入和离开页面的class
+					//向上滑动时，进入和离开页面的class           
 					self.upInClass = 'pt-page-moveFromBottom';
 					self.upOutClass = 'pt-page-moveToTop';
 					//向下滑动时，进入和离开页面的class
