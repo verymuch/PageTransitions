@@ -34,12 +34,11 @@ PageTransition是一款实现了手机浏览器中多种页面过渡效果的插
 	</div>
 
 ###Javascript
-引用依赖文件：zepto基础库、zepto touch模块、modernizr、widget
+引用依赖文件：zepto基础库、zepto touch模块、modernizr
 
 	<script src="../../module/zepto/zepto.js"></script>
 	<script src="../../module/zepto/touch.js"></script>
 	<script src="../../module/modernizr.custom.js"></script>
-	<script src="../../module/widget.1.0.2.js"></script>
 	<script src="../../production/minjs/PageTransitions.min.js"></script>
 
 ###CSS
@@ -60,11 +59,14 @@ components为插件基础css文件
 		transitionType: 'slide',		//切换页面的过渡效果吗，默认为slide
 	}
 
+##开启页面过渡
+	pt = PageTransitions(config);
+
 ##对外接口方法
-* pt = new PageTransitions(config);
+
 * pt.next();			//切换到下一页
 * pt.prev();			//切换到上一页
-* pt.switch;			//切换到指定页，传入参数n
+* pt.switch;			//切换到指定页，传入参数n，n可以为负数（从后面开始计数，-1为最后一页）
 
 
 ##事件
