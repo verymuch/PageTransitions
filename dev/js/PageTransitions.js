@@ -2,9 +2,9 @@
 
 var version = '0.0.1',
 
-	_PageTransitions = window.pageTransitions ,	//é˜²å†²çªå¤‡ç”¨
+	_PageTransitions = window.pageTransitions ,	//·À³åÍ»±¸ÓÃ
 
-	_pt = window.pt,							//é˜²å†²çªå¤‡ç”¨
+	_pt = window.pt,							//·À³åÍ»±¸ÓÃ
 
 	PageTransitions = function( config ) {
 		return new PageTransitions.prototype.init( config );
@@ -16,236 +16,246 @@ PageTransitions.prototype = {
 	
 	constructor: PageTransitions,
 	
-	element: '.pt',						//æ‰§è¡Œé¡µé¢è¿‡æ¸¡çš„æœ€å¤–å±‚å…ƒç´ ,æ³¨æ„æ­¤å¤„å¸¦æœ‰.
+	element: '.pt',						//Ö´ĞĞÒ³Ãæ¹ı¶ÉµÄ×îÍâ²ãÔªËØ,×¢Òâ´Ë´¦´øÓĞ.
 			
-	index:ã€€'-1',						//é»˜è®¤æ˜¾ç¤ºçš„é¡µé¢
+	index: '-1',						//Ä¬ÈÏÏÔÊ¾µÄÒ³Ãæ
 	
-	count: '0',							//é¡µé¢æ€»æ•°
+	count: '0',							//Ò³Ãæ×ÜÊı
 
-	loop: 'false',						//æ˜¯å¦æ”¯æŒå¾ªç¯ï¼Œé»˜è®¤ä¸ºä¸å¯å¾ªç¯
+	loop: 'false',						//ÊÇ·ñÖ§³ÖÑ­»·£¬Ä¬ÈÏÎª²»¿ÉÑ­»·
 
-	direction: 'vertical',				//é¡µé¢è¿‡æ¸¡æ–¹å‘ï¼Œé»˜è®¤ä¸ºç«–ç›´æ–¹å‘
+	direction: 'vertical',				//Ò³Ãæ¹ı¶É·½Ïò£¬Ä¬ÈÏÎªÊúÖ±·½Ïò
 
-	transitionType: 'slide',			//é¡µé¢è¿‡æ¸¡ç±»å‹ï¼Œé»˜è®¤ä¸º slide æ»‘åŠ¨ 
+	transitionType: 'slide',			//Ò³Ãæ¹ı¶ÉÀàĞÍ£¬Ä¬ÈÏÎª slide »¬¶¯ 
 
 	selectors: {
-		ptPage: 'pt-page',				//è¿‡æ¸¡é¡µçš„ç±»å
-		current: 'pt-page-current' 		//å½“å‰æ˜¾ç¤ºé¡µ
+		ptPage: 'pt-page',				//¹ı¶ÉÒ³µÄÀàÃû
+		current: 'pt-page-current' 		//µ±Ç°ÏÔÊ¾Ò³
 	}, 
 
-	//åˆå§‹åŒ–
-	init: function( config ){
+	//³õÊ¼»¯
+	init: function( config ) {
 		var self = this,
 			selectors = self.selectors;
 
-		/*** åˆå§‹åŒ–é…ç½®å±æ€§ ***/
+		/*** ³õÊ¼»¯ÅäÖÃÊôĞÔ ***/
 		if( config && $.isPlainObject( config ) ) {
 			for( var option in config ) {
-				if( option in self ) {	//åªé…ç½®PageTransitionsè®¾æœ‰çš„é…ç½®å±æ€§
+				if( option in self ) {	//Ö»ÅäÖÃPageTransitionsÉèÓĞµÄÅäÖÃÊôĞÔ
 					this[ option ] = config[ option ];
 				}
 			}
 		}
 
-		//åˆå§‹åŒ–DOM, é¡µé¢è¿‡æ¸¡æ‰€æœ‰é¡µé¢
-		self.$element = $( self.element );//éœ€è¦ä¼˜å…ˆæ‰§è¡Œï¼Œåç»­éœ€è¦ä½¿ç”¨$elementæ¥æ³¨å†Œäº‹ä»¶
+		//³õÊ¼»¯DOM, Ò³Ãæ¹ı¶ÉËùÓĞÒ³Ãæ
+		/*** ĞèÒªÓÅÏÈÖ´ĞĞ£¬ºóĞøĞèÒªÊ¹ÓÃ$elementÀ´×¢²áÊÂ¼ş **/
+		self.$element = $( self.element );
 		self.$ptPages = self.$element.children( '.' + selectors.ptPage );
 		self.count = self.$ptPages.length;
 
-		/*** åˆå§‹åŒ–å½“å‰é…ç½®ä¸‹çš„è¿‡æ¸¡åŠ¨ç”»ç±»ç±»å ***/
+		/*** ³õÊ¼»¯µ±Ç°ÅäÖÃÏÂµÄ¹ı¶É¶¯»­ÀàÀàÃû ***/
 		self.initTransitionClassName();
 
-		/*** åˆå§‹åŒ–åŠ¨ç”»ç»“æŸäº‹ä»¶åã€æ˜¯å¦æ­£åœ¨åŠ¨ç”»ã€æ˜¯å¦æ”¯æŒcssåŠ¨ç”» ****/
+		/*** ³õÊ¼»¯¶¯»­½áÊøÊÂ¼şÃû¡¢ÊÇ·ñÕıÔÚ¶¯»­¡¢ÊÇ·ñÖ§³Öcss¶¯»­ ***/
 		self.initAnimEndEventName();
 
-		//å¦‚æœåˆå§‹é¡µä¸º -1 ä¸” count > 0 ,å°†åˆå§‹é¡µç½®ä¸º0
-		if( self.count > 0 && self.index == -1 ){
+		//Èç¹û³õÊ¼Ò³Îª -1 ÇÒ count > 0 ,½«³õÊ¼Ò³ÖÃÎª0
+		if( self.count > 0 && self.index == -1 ) {
 			self.index = 0 ;
 		}
 
-		//åˆå§‹åŒ–è¿‡æ¸¡é¡µé¢
+		//³õÊ¼»¯¹ı¶ÉÒ³Ãæ(±£´æÔ­Ê¼classÁĞ±í)
 		self.initPtPages( self.$ptPages );
 
-		//ä¸ºæ‰€æœ‰è¿‡æ¸¡é¡µé¢ç»‘å®šswipeäº‹ä»¶
+		//ÎªËùÓĞ¹ı¶ÉÒ³Ãæ°ó¶¨swipeÊÂ¼ş
 		self.bindSwipeEvent();
 
+		//·µ»Øthis
 		return this;
 
 	},
 
-	on: function( event, callback ){
+	//Î±onº¯Êı£ºµ±ÔÚthisÉÏµ÷ÓÃonÊ±£¬ÊÓÎªÔÚÒ³Ãæ¹ı¶ÉÔªËØÉÏµ÷ÓÃon£¬¼àÌıÊÂ¼ş
+	on: function( event, callback ) {
 		this.$element.on( event, callback );
 	},
 
+	//Î±triggerº¯Êı£ºµ±ÔÚthisÉÏµ÷ÓÃtriggerÊ±£¬ÊÓÎªÔÚÒ³Ãæ¹ı¶ÉÔªËØÉÏµ÷ÓÃtrigger£¬¼àÌıÊÂ¼ş
 	trigger: function( event ) {
 		this.$element.trigger( event );
 	},
 
-	/* åˆ‡æ¢é¡µé¢ */
+	/* ÇĞ»»Ò³Ãæ */
 	/*
 	 ** parameter **
-	 * @inIndex: è¿›å…¥é¡µåºå·ï¼Œå³å°†è¿›å…¥è§†é‡çš„é¡µé¢ *
-	 * @typeï¼ˆå¯ç¼ºçœï¼‰: åˆ¤æ–­å½“å‰çš„æœŸæœ›åŠ¨ä½œæ˜¯ä¸Šä¸€é¡µè¿˜æ˜¯ä¸‹ä¸€é¡µ  *
+	 * @inIndex: ½øÈëÒ³ĞòºÅ£¬¼´½«ÇĞ»»½øÈëµÄÒ³Ãæ *
+	 * @type£¨¿ÉÈ±Ê¡£©: ÅĞ¶Ïµ±Ç°µÄÆÚÍû¶¯×÷ÊÇÉÏÒ»Ò³»¹ÊÇÏÂÒ»Ò³  *
 	*/
-	switch: function( inIndex, type ){
+	switch: function( inIndex, type ) {
 		var self = this;
 		
-		//å½“ä¼ å…¥çš„inIndexå¤§äºé¡µé¢æ€»æ•°æ—¶ï¼Œè¿”å›false
+		/*** Ö§³Ö¸ºÊıswitch ***/
+		if( inIndex < 0 ) {
+			inIndex += self.count;
+		}
+
+		/* switch×öÈİ´í´¦Àí */
+		//µ±´«ÈëµÄinIndex´óÓÚÒ³Ãæ×ÜÊıÊ±£¬·µ»Øfalse
 		if( inIndex > self.count ) return false;
 
-		//å¦‚æœæ­£åœ¨è¿›è¡ŒåŠ¨ç”»ï¼Œä¸è¿›è¡Œåˆ‡æ¢é¡µé¢åŠ¨ä½œ
+		//Èç¹ûÕıÔÚ½øĞĞ¶¯»­£¬²»½øĞĞÇĞ»»Ò³Ãæ¶¯×÷
 		if( self.isAnimating ) return false;
 
 		var outIndex = self.index,
-			//typeåŒºåˆ†æ˜¯å¾€å‰è¿˜æ˜¯å¾€åï¼ˆå¹¶ä¸åªæ˜¯ä¸Šä¸€é¡µä¸‹ä¸€é¡µï¼‰
+			//typeÇø·ÖÊÇÍùÇ°»¹ÊÇÍùºó£¨²¢²»Ö»ÊÇÉÏÒ»Ò³ÏÂÒ»Ò³£©
 			type = ( type != undefined ) ? type : ( outIndex < inIndex ) ? 'next' : 'prev',
 			
-			$outPage = $( self.$ptPages[outIndex] ),
-			$inPage = $(self.$ptPages[inIndex]),
-			direction = self.direction,
-			transitionType = self.transitionType;
+			$outPage = $( self.$ptPages[ outIndex ] ),
+			$inPage = $( self.$ptPages[ inIndex ] ),
+			direction = self.direction;
 
-		//ä¿®æ”¹åŠ¨ç”»çŠ¶æ€
+		//ĞŞ¸Ä¶¯»­×´Ì¬
 		self.isAnimating = true;
-		/* ä¿®æ”¹å½“å‰é€‰ä¸­é¡¹ */
+		// ĞŞ¸Äµ±Ç°Ñ¡ÖĞÏî
 		self.index = inIndex;
 
-		/* ç›‘æµ‹åŠ¨ç”»ç»“æŸ */
-		//ä¸º$outPageã€$inPageé¡µç»‘å®šåŠ¨ç”»ç»“æŸäº‹ä»¶
-		$outPage.on( self.animEndEventName, function(){
+		/* ¼à²â¶¯»­½áÊø */
+		//Îª$outPage¡¢$inPageÒ³°ó¶¨¶¯»­½áÊøÊÂ¼ş
+		$outPage.on( self.animEndEventName, function() {
 			$outPage.off( self.animEndEventName );
 			self.endOutPage = true;
-			if( self.endInPage ){
+			if( self.endInPage ) {
 				self.onEndAnimation( $outPage, $inPage );
 			}
 		});
-		$inPage.on( self.animEndEventName, function(){
+		$inPage.on( self.animEndEventName, function() {
 			$inPage.off( self.animEndEventName );
 			self.endInPage = true;
-			if( self.endOutPage ){
+			if( self.endOutPage ) {
 				self.onEndAnimation( $outPage, $inPage );
 			}
 		});
-		//å¦‚æœä¸æ”¯æŒcssåŠ¨ç”» 
-		if( !self.support ){
+		//Èç¹û²»Ö§³Öcss¶¯»­£¬ÊÖ¶¯µ÷ÓÃ¶¯»­½áÊøº¯Êı
+		if( !self.support ) {
 			self.onEndAnimation( $outPage, $inPage );
 		}
 
-		//æ ¹æ®direction å’Œ type æ·»åŠ åŠ¨ç”»
-		if( direction == 'vertical' ){
-			if( type == 'next' ){
-				$outPage.addClass(self.upOutClass);
-				$inPage.addClass(self.upInClass + ' pt-page-current');
-			}else if( type == 'prev' ){
-				$outPage.addClass(self.downOutClass);
-				$inPage.addClass(self.downInClass + ' pt-page-current');
+		//¸ù¾İdirection ºÍ type Ìí¼Ó¶¯»­
+		if( direction == 'vertical' ) {
+			if( type == 'next' ) {
+				$outPage.addClass( self.upOutClass );
+				$inPage.addClass( self.upInClass + ' pt-page-current' );
+			}else if( type == 'prev' ) {
+				$outPage.addClass( self.downOutClass );
+				$inPage.addClass( self.downInClass + ' pt-page-current' );
 			}
-		}else if( direction == 'horizonal'){
-			if( type == 'next' ){
-				$outPage.addClass(self.leftOutClass);
-				$inPage.addClass(self.leftInClass + ' pt-page-current');
-			}else if( type == 'prev' ){
+		}else if( direction == 'horizonal') {
+			if( type == 'next' ) {
+				$outPage.addClass( self.leftOutClass );
+				$inPage.addClass( self.leftInClass + ' pt-page-current' );
+			}else if( type == 'prev' ) {
 				$outPage.addClass( self.rightOutClass );
 				$inPage.addClass( self.rightInClass + ' pt-page-current' );
 			}
 		}
 	},
 
-	/* åˆ‡æ¢åˆ°ä¸‹ä¸€ä¸ªï¼ŒæˆåŠŸè¿”å›true,è§¦å‘preväº‹ä»¶ */
-	prev: function(){
+	/* ÇĞ»»µ½ÏÂÒ»¸ö£¬³É¹¦·µ»Øtrue */
+	prev: function() {
 		var prev = this.getPrevIndex();
-		if( prev != -1 ){
+		//prev == -1 Ê± ²»×ö¹ı¶É
+		if( prev != -1 ) {
 			this.switch(prev, 'prev');
 			return true;
 		}
 		return false;
 	},
 
-	/* åˆ‡æ¢åˆ°ä¸‹ä¸€ä¸ªï¼ŒæˆåŠŸè¿”å›true, è§¦å‘nextäº‹ä»¶ */
-	next: function(){
-		var index = this.index;
+	/* ÇĞ»»µ½ÏÂÒ»¸ö£¬³É¹¦·µ»Øtrue */
+	next: function() {
 		var next = this.getNextIndex();
-		if( next != -1 ){
+		//next == -1 Ê± ²»×ö¹ı¶É
+		if( next != -1 ) { 	
 			this.switch(next, 'next');
 			return true;
 		}
 		return false;
 	},
 
-	/* è·å–ä¸Šä¸€ä¸ªé€‰é¡¹ */
-	getPrevIndex: function(){
+	/* »ñÈ¡ÉÏÒ»¸öÑ¡Ïî */
+	getPrevIndex: function() {
 		var from = this.index,
 			to = -1,
 			count = this.count;
 
-		//å¯å¾ªç¯æ—¶ï¼Œè®¡ç®—ä¸Šä¸€ä¸ªé€‰é¡¹index
-		if( this.loop ){
+		//¿ÉÑ­»·Ê±£¬¼ÆËãÉÏÒ»¸öÑ¡Ïîindex
+		if( this.loop ) {
 			to = (from - 1 + count) % count;
 		}
-		//ä¸å¯å¾ªç¯æ—¶ï¼Œè®¡ç®—index(ä¸å¯è¶…å‡ºèŒƒå›´)
-		else if( (from - 1) >= 0 ){
+		//²»¿ÉÑ­»·Ê±£¬¼ÆËãindex(²»¿É³¬³ö·¶Î§)
+		else if( (from - 1) >= 0 ) {
 			to = from - 1;
 		}
 
 		return to;
 	},
 
-	/* è·å–ä¸‹ä¸€ä¸ªé€‰é¡¹ */
-	getNextIndex: function(){
+	/* »ñÈ¡ÏÂÒ»¸öÑ¡Ïî */
+	getNextIndex: function() {
 		var from = this.index,
 			to = -1,
 			count = this.count;
 
-		//å¯å¾ªç¯æ—¶ï¼Œè®¡ç®—ä¸Šä¸€ä¸ªé€‰é¡¹index
-		if( this.loop ){
-			to = (from + 1) % count;
+		//¿ÉÑ­»·Ê±£¬¼ÆËãÉÏÒ»¸öÑ¡Ïîindex
+		if( this.loop ) {
+			to = ( from + 1 ) % count;
 		}
-		//ä¸å¯å¾ªç¯æ—¶ï¼Œè®¡ç®—index(ä¸å¯è¶…å‡ºèŒƒå›´)
-		else if( (from + 1) < count ){
+		//²»¿ÉÑ­»·Ê±£¬¼ÆËãindex(²»¿É³¬³ö·¶Î§)
+		else if( ( from + 1 ) < count ) {
 			to = from + 1;
 		}
 
 		return to;
 	},
 
-	/* åŠ¨ç”»ç»“æŸæ—¶è°ƒç”¨ */
-	onEndAnimation: function($outPage, $inPage){
+	/* ¶¯»­½áÊøÊ±µ÷ÓÃ */
+	onEndAnimation: function( $outPage, $inPage ) {
 		this.endOutPage = false;
 		this.endInPage = false;
-		this.resetPage($outPage, $inPage);
+		this.resetPage( $outPage, $inPage );
 		this.isAnimating = false;
-		this.trigger('afterSwitch');
+		this.trigger( 'afterSwitch' );
 	},
 
-	/* åŠ¨ç”»ç»“æŸåï¼Œé‡ç½®é¡µé¢classåˆ—è¡¨ */
-	resetPage: function($outPage, $inPage){
-		$outPage.attr('class',$outPage.data('originalClassList'));
-		$inPage.attr('class', $inPage.data('originalClassList') + ' pt-page-current');
+	/* ¶¯»­½áÊøºó£¬ÖØÖÃÒ³ÃæclassÁĞ±í */
+	resetPage: function( $outPage, $inPage ) {
+		$outPage.attr( 'class', $outPage.data('originalClassList') );
+		$inPage.attr( 'class', $inPage.data('originalClassList') + ' pt-page-current' );
 	},
 
-	/* ä¸ºæ‰€æœ‰é¡µé¢è¿‡æ¸¡é¡µé¢ç»‘å®šswipeäº‹ä»¶ */
-	bindSwipeEvent: function(){
+	/* ÎªËùÓĞÒ³Ãæ¹ı¶ÉÒ³Ãæ°ó¶¨swipeÊÂ¼ş */
+	bindSwipeEvent: function() {
 		var self = this,
 			direction = self.direction;
 
-		if( direction == 'vertical' ){
+		if( direction == 'vertical' ) {
 		    self.$ptPages.on({
-		        swipeDown: function(e){
+		        swipeDown: function( e ) {
 		            e.stopPropagation();
 		            self.prev();
 		        },
-		        swipeUp: function(e){
+		        swipeUp: function( e ) {
 		            e.stopPropagation();
 		            self.next();
 		        }
 		    });
-		}else if( direction == 'horizonal' ){
+		}else if( direction == 'horizonal' ) {
 		    self.$ptPages.on({
-		        swipeRight: function(e){
+		        swipeRight: function( e ) {
 		            e.stopPropagation();
 		            self.prev();
 		        },
-		        swipeLeft: function(e){
+		        swipeLeft: function( e ) {
 		            e.stopPropagation();
 		            self.next();
 		        }
@@ -253,20 +263,20 @@ PageTransitions.prototype = {
 		}
 	},
 
-	/* åˆå§‹åŒ–è¿‡æ¸¡é¡µé¢ */
-	/* å­˜å‚¨é¡µé¢çš„åŸå§‹classåˆ—è¡¨ è¿‡æ¸¡ç»“æŸåæ¢å¤åŸåˆ—è¡¨ */
-	initPtPages: function( $pages ){
-		//å°†æ‰€æœ‰è¿‡æ¸¡é¡µé¢çš„åŸå§‹classåˆ—è¡¨ä¿å­˜
-		$pages.each(function(){
+	/* ³õÊ¼»¯¹ı¶ÉÒ³Ãæ */
+	/* ´æ´¢Ò³ÃæµÄÔ­Ê¼classÁĞ±í ¹ı¶É½áÊøºó»Ö¸´Ô­ÁĞ±í */
+	initPtPages: function( $pages ) {
+		//½«ËùÓĞ¹ı¶ÉÒ³ÃæµÄÔ­Ê¼classÁĞ±í±£´æ
+		$pages.each(function() {
 			var $page = $( this );
 			$page.data( 'originalClassList', $page.attr( 'class' ) );
 		});
-		//ç»™å½“å‰é¡µæ·»åŠ class 
+		//¸øµ±Ç°Ò³Ìí¼Óclass 
 		$pages.eq( this.index ).addClass( this.selectors.current );
 	},
 	
-	/*** åˆ¤æ–­æ˜¯å¦æ”¯æŒcssåŠ¨ç”»ã€æ˜¯å¦æ­£åœ¨è¿›è¡ŒåŠ¨ç”»ã€ç¦»å¼€é¡µåŠ¨ç”»æ˜¯å¦å®Œæˆã€è¿›å…¥é¡µåŠ¨ç”»æ˜¯å¦å®Œæˆã€ä»¥åŠè®¾ç½®åŠ¨ç”»ç»“æŸäº‹ä»¶å ***/
-	initAnimEndEventName: function(){
+	/*** ÅĞ¶ÏÊÇ·ñÖ§³Öcss¶¯»­¡¢ÊÇ·ñÕıÔÚ½øĞĞ¶¯»­¡¢Àë¿ªÒ³¶¯»­ÊÇ·ñÍê³É¡¢½øÈëÒ³¶¯»­ÊÇ·ñÍê³É¡¢ÒÔ¼°ÉèÖÃ¶¯»­½áÊøÊÂ¼şÃû ***/
+	initAnimEndEventName: function() {
 		var self = this;
 		var animEndEventNames = {
 			'WebkitAnimation' : 'webkitAnimationEnd',
@@ -282,340 +292,340 @@ PageTransitions.prototype = {
 		
 	},
 
-	/* æ ¹æ®transitionTypeå’Œdirectionçš„å€¼ ç”Ÿæˆé¡µé¢è¿‡æ¸¡Classç±»å */
-	initTransitionClassName: function(){
+	/* ¸ù¾İtransitionTypeºÍdirectionµÄÖµ Éú³ÉÒ³Ãæ¹ı¶ÉClassÀàÃû */
+	initTransitionClassName: function() {
 		var self = this,
 			transitionType = self.transitionType,
 			direction = self.direction;
-		switch( transitionType ){
-			/* åˆ’å…¥åˆ’å‡º */
+		switch( transitionType ) {
+			/* »®Èë»®³ö */
 			case 'slide':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottom';
 					self.upOutClass = 'pt-page-moveToTop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTop';
 					self.downOutClass = 'pt-page-moveToBottom';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRight';
 					self.leftOutClass = 'pt-page-moveToLeft';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeft';
 					self.rightOutClass = 'pt-page-moveToRight';
 				}
 				break;
-			/* æ·¡å‡ºæ»‘å…¥ */
+			/* µ­³ö»¬Èë */
 			case 'fadeOutSlideIn':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottom pt-page-ontop';
 					self.upOutClass = 'pt-page-fade';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTop pt-page-ontop';
 					self.downOutClass = 'pt-page-fade';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRight pt-page-ontop';
 					self.leftOutClass = 'pt-page-fade';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeft pt-page-ontop';
 					self.rightOutClass = 'pt-page-fade';
 				}
 				break;
-			/* æ·¡å…¥æ·¡å‡º */
+			/* µ­Èëµ­³ö */
 			case 'fade':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottomFade';
 					self.upOutClass = 'pt-page-moveToTopFade';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTopFade';
 					self.downOutClass = 'pt-page-moveToBottomFade';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRightFade';
 					self.leftOutClass = 'pt-page-moveToLeftFade';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeftFade';
 					self.rightOutClass = 'pt-page-moveToRightFade';
 				}
 				break;
-			/* æ¸å‡ºæ»‘å…¥ */
+			/* ½¥³ö»¬Èë */
 			case 'easingOutSlideIn':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottom';
 					self.upOutClass = 'pt-page-moveToTopEasing pt-page-ontop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTop';
 					self.downOutClass = 'pt-page-moveToBottomEasing pt-page-ontop';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRight';
 					self.leftOutClass = 'pt-page-moveToLeftEasing pt-page-ontop';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeft';
 					self.rightOutClass = 'pt-page-moveToRightEasing pt-page-ontop';
 				}
 				break;
-			/* ç¼©å°é€€å‡º æ»‘å…¥ */
+			/* ËõĞ¡ÍË³ö »¬Èë */
 			case 'scaleDownOutSlideIn':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottom pt-page-ontop';
 					self.upOutClass = 'pt-page-scaleDown';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTop pt-page-ontop';
 					self.downOutClass = 'pt-page-scaleDown';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRight pt-page-ontop';
 					self.leftOutClass = 'pt-page-scaleDown';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeft pt-page-ontop';
 					self.rightOutClass = 'pt-page-scaleDown';
 				}
 				break;
-			/* ç¼©å°è¿›å…¥ã€é€€å‡º */
+			/* ËõĞ¡½øÈë¡¢ÍË³ö */
 			case 'scaleDown':
-				if( direction == 'vertical' ){
+				if( direction == 'vertical' ) {
 					self.upInClass = self.downInClass = 'pt-page-scaleUpDown pt-page-delay300';
 					self.upOutClass = self.downOutClass = 'pt-page-scaleDown';
-				}else if( direction == 'horizonal' ){
+				}else if( direction == 'horizonal' ) {
 					self.leftInClass = self.rightInClass = 'pt-page-scaleUpDown pt-page-delay300';
 					self.leftOutClass = self.rightOutClass = 'pt-page-scaleDown'
 				}
 				break;
-			/* æ”¾å¤§è¿›å…¥ã€é€€å‡º */
+			/* ·Å´ó½øÈë¡¢ÍË³ö */
 			case 'scaleUp':
-				if( direction == 'vertical' ){
+				if( direction == 'vertical' ) {
 					self.upInClass = self.downInClass = 'pt-page-scaleUp pt-page-delay300';
 					self.upOutClass = self.downOutClass = 'pt-page-scaleDownUp';
-				}else if( direction == 'horizonal' ){
+				}else if( direction == 'horizonal' ) {
 					self.leftInClass = self.rightInClass = 'pt-page-scaleUp pt-page-delay300';
 					self.leftOutClass = self.rightOutClass = 'pt-page-scaleDownUp'
 				}
 				break;
-			/* æ”¾å¤§è¿›å…¥ æ»‘åŠ¨é€€å‡º */
+			/* ·Å´ó½øÈë »¬¶¯ÍË³ö */
 			case 'scaleUpInSlideOut':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-scaleUp';
 					self.upOutClass = 'pt-page-moveToTop pt-page-ontop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-scaleUp';
 					self.downOutClass = 'pt-page-moveToBottom pt-page-ontop';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-scaleUp';
 					self.leftOutClass = 'pt-page-moveToLeft pt-page-ontop';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-scaleUp';
 					self.rightOutClass = 'pt-page-moveToRight pt-page-ontop';
 				}
 				break;
-			/* æ”¾å¤§è¿›å…¥ã€ç¼©å°é€€å‡º */
+			/* ·Å´ó½øÈë¡¢ËõĞ¡ÍË³ö */
 			case 'scaleUpInScaleDownOut':
-				if( direction == 'vertical' ){
+				if( direction == 'vertical' ) {
 					self.upInClass = self.downInClass = 'pt-page-scaleUpCenter pt-page-delay400';
 					self.upOutClass = self.downOutClass = 'pt-page-scaleDownCenter';
-				}else if( direction == 'horizonal' ){
+				}else if( direction == 'horizonal' ) {
 					self.leftInClass = self.rightInClass = 'pt-page-scaleUpCenter pt-page-delay400';
 					self.leftOutClass = self.rightOutClass = 'pt-page-scaleDownCenter'
 				}
 				break;
-			/* ä»¥å„è¾¹æ—‹è½¬é€€å‡º æ»‘åŠ¨è¿›å…¥ */
+			/* ÒÔ¸÷±ßĞı×ªÍË³ö »¬¶¯½øÈë */
 			case 'SlideInRotateOut':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottom pt-page-delay200 pt-page-ontop';
 					self.upOutClass = 'pt-page-rotateBottomSideFirst';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTop pt-page-delay200 pt-page-ontop';
 					self.downOutClass = 'pt-page-rotateTopSideFirst';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRight pt-page-delay200 pt-page-ontop';
 					self.leftOutClass = 'pt-page-rotateRightSideFirst';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeft pt-page-delay200 pt-page-ontop';
 					self.rightOutClass = 'pt-page-rotateLeftSideFirst';
 				}
 				break;
-			/* ç¿»è½¬è¿›å…¥ã€é€€å‡º */
+			/* ·­×ª½øÈë¡¢ÍË³ö */
 			case 'flip':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-flipInBottom pt-page-delay500';
 					self.upOutClass = 'pt-page-flipOutTop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-flipInTop pt-page-delay500';
 					self.downOutClass = 'pt-page-flipOutBottom';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-flipInRight pt-page-delay500';
 					self.leftOutClass = 'pt-page-flipOutLeft';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-flipInLeft pt-page-delay500';
 					self.rightOutClass = 'pt-page-flipOutRight';
 				}
 				break;
-			/* æ—‹è½¬æ‰è½ */
-			/*********æ­¤å¤„å¯åšè°ƒæ•´ï¼Œåˆ†åˆ«ä»å››ä¸ªè§’æ‰è½**********/
+			/* Ğı×ªµôÂä */
+			/*********´Ë´¦¿É×öµ÷Õû£¬·Ö±ğ´ÓËÄ¸ö½ÇµôÂä**********/
 			case 'rotateFall':
-				if( direction == 'vertical' ){
+				if( direction == 'vertical' ) {
 					self.upInClass = self.downInClass = 'pt-page-scaleUp';
 					self.upOutClass = self.downOutClass = 'pt-page-rotateFall pt-page-ontop';
-				}else if( direction == 'horizonal' ){
+				}else if( direction == 'horizonal' ) {
 					self.leftInClass = self.rightInClass = 'pt-page-scaleUp';
 					self.leftOutClass = self.rightOutClass = 'pt-page-rotateFall pt-page-ontop'
 				}
 				break;
-			/* è½¬åœˆè¿›å…¥ã€é€€å‡º */
+			/* ×ªÈ¦½øÈë¡¢ÍË³ö */
 			case 'rotateCircle':
-				if( direction == 'vertical' ){
+				if( direction == 'vertical' ) {
 					self.upInClass = self.downInClass = 'pt-page-rotateInNewspaper pt-page-delay500';
 					self.upOutClass = self.downOutClass = 'pt-page-rotateOutNewspaper';
-				}else if( direction == 'horizonal' ){
+				}else if( direction == 'horizonal' ) {
 					self.leftInClass = self.rightInClass = 'pt-page-rotateInNewspaper pt-page-delay500';
 					self.leftOutClass = self.rightOutClass = 'pt-page-rotateOutNewspaper'
 				}
 				break;
-			/* æ»‘åŠ¨è¿›å…¥ã€æ¨é—¨è€Œå‡º */
+			/* »¬¶¯½øÈë¡¢ÍÆÃÅ¶ø³ö */
 			case 'slideInPushOut':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottom';
 					self.upOutClass = 'pt-page-rotatePushTop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTop';
 					self.downOutClass = 'pt-page-rotatePushBottom';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRight';
 					self.leftOutClass = 'pt-page-rotatePushLeft';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeft';
 					self.rightOutClass = 'pt-page-rotatePushRight';
 				}
 				break;
-			/* æ‹‰é—¨è€Œå…¥ã€æ¨é—¨è€Œå‡º */
+			/* À­ÃÅ¶øÈë¡¢ÍÆÃÅ¶ø³ö */
 			case 'pullInPushOut':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-rotatePullBottom pt-page-delay180';
 					self.upOutClass = 'pt-page-rotatePushTop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-rotatePullTop pt-page-delay180';
 					self.downOutClass = 'pt-page-rotatePushBottom';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-rotatePullRight pt-page-delay180';
 					self.leftOutClass = 'pt-page-rotatePushLeft';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-rotatePullLeft pt-page-delay180';
 					self.rightOutClass = 'pt-page-rotatePushRight';
 				}
 				break;
-			/* æ·¡å…¥æ»‘åŠ¨è€Œå…¥ã€æ‰“å¼€è€Œå‡º */
+			/* µ­Èë»¬¶¯¶øÈë¡¢´ò¿ª¶ø³ö */
 			case 'slideFadeInFoldOut':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-moveFromBottomFade';
 					self.upOutClass = 'pt-page-rotateFoldTop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-moveFromTopFade';
 					self.downOutClass = 'pt-page-rotateFoldBottom';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-moveFromRightFade';
 					self.leftOutClass = 'pt-page-rotateFoldLeft';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-moveFromLeftFade';
 					self.rightOutClass = 'pt-page-rotateFoldRight';
 				}
 				break;
-			/* å…³é—­è€Œå…¥ã€æ·¡å…¥æ»‘åŠ¨è€Œå‡º */
+			/* ¹Ø±Õ¶øÈë¡¢µ­Èë»¬¶¯¶ø³ö */
 			case 'foldInSlideFadeOut':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-rotateUnfoldBottom';
 					self.upOutClass = 'pt-page-moveToTopFade';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-rotateUnfoldTop';
 					self.downOutClass = 'pt-page-moveToBottomFade';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-rotateUnfoldRight';
 					self.leftOutClass = 'pt-page-moveToLeftFade';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-rotateUnfoldLeft';
 					self.rightOutClass = 'pt-page-moveToRightFade';
 				}
 				break;
-			/* roomè€Œå…¥ã€roomè€Œå‡º */
+			/* room¶øÈë¡¢room¶ø³ö */
 			case 'room':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-rotateRoomTopIn';
 					self.upOutClass = 'pt-page-rotateRoomTopOut pt-page-ontop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-rotateRoomBottomIn';
 					self.downOutClass = 'pt-page-rotateRoomBottomOut pt-page-ontop';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-rotateRoomLeftIn';
 					self.leftOutClass = 'pt-page-rotateRoomLeftOut pt-page-ontop';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-rotateRoomRightIn';
 					self.rightOutClass = 'pt-page-rotateRoomRightOut pt-page-ontop';
 				}
 				break;
-			/* é­”æ–¹è€Œå…¥ã€é­”æ–¹è€Œå‡º */
+			/* Ä§·½¶øÈë¡¢Ä§·½¶ø³ö */
 			case 'cube':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-rotateCubeTopIn';
 					self.upOutClass = 'pt-page-rotateCubeTopOut pt-page-ontop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-rotateCubeBottomIn';
 					self.downOutClass = 'pt-page-rotateCubeBottomOut pt-page-ontop';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-rotateCubeLeftIn';
 					self.leftOutClass = 'pt-page-rotateCubeLeftOut pt-page-ontop';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-rotateCubeRightIn';
 					self.rightOutClass = 'pt-page-rotateCubeRightOut pt-page-ontop';
 				}
 				break;
-			/* é£å…¥ã€é£å‡º */
+			/* ·ÉÈë¡¢·É³ö */
 			case 'carousel':
-				if( direction == 'vertical' ){
-					//å‘ä¸Šæ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				if( direction == 'vertical' ) {
+					//ÏòÉÏ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.upInClass = 'pt-page-rotateCarouselTopIn';
 					self.upOutClass = 'pt-page-rotateCarouselTopOut pt-page-ontop';
-					//å‘ä¸‹æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÏÂ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.downInClass = 'pt-page-rotateCarouselBottomIn';
 					self.downOutClass = 'pt-page-rotateCarouselBottomOut pt-page-ontop';
-				}else if( direction == 'horizonal' ){
-					//å‘å·¦æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+				}else if( direction == 'horizonal' ) {
+					//Ïò×ó»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.leftInClass = 'pt-page-rotateCarouselLeftIn';
 					self.leftOutClass = 'pt-page-rotateCarouselLeftOut pt-page-ontop';
-					//å‘å³æ»‘åŠ¨æ—¶ï¼Œè¿›å…¥å’Œç¦»å¼€é¡µé¢çš„class
+					//ÏòÓÒ»¬¶¯Ê±£¬½øÈëºÍÀë¿ªÒ³ÃæµÄclass
 					self.rightInClass = 'pt-page-rotateCarouselRightIn';
 					self.rightOutClass = 'pt-page-rotateCarouselRightOut pt-page-ontop';
 				}
 				break;
-			/* æŒ¤å…¥æŒ¤å‡º */
-			/*********æ­¤å¤„å¯åšè°ƒæ•´ï¼Œåˆ†åˆ«ä»å››ä¸ªæ–¹å‘**********/
+			/* ¼·Èë¼·³ö */
+			/*********´Ë´¦¿É×öµ÷Õû£¬·Ö±ğ´ÓËÄ¸ö·½Ïò**********/
 			case 'side':
-				if( direction == 'vertical' ){
+				if( direction == 'vertical' ) {
 					self.upInClass = self.downInClass = 'pt-page-rotateSidesIn pt-page-delay200';
 					self.upOutClass = self.downOutClass = 'pt-page-rotateSidesOut';
-				}else if( direction == 'horizonal' ){
+				}else if( direction == 'horizonal' ) {
 					self.leftInClass = self.rightInClass = 'pt-page-rotateSidesIn pt-page-delay200';
 					self.leftOutClass = self.rightOutClass = 'pt-page-rotateSidesOut'
 				}

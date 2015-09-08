@@ -12,6 +12,6 @@ $(function(){
 		console.log(a);
 	});
 	setTimeout(function(){
-		a.switch(8);
+		a.switch(-1);
 	},1000);
 });
