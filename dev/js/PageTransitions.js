@@ -95,7 +95,7 @@ PageTransitions.prototype = {
 	switch: function( inIndex, type ) {
 		var self = this;
 		
-		/*** 支持负数switch ***/
+		/*** switch支持负数 ***/
 		if( inIndex < 0 ) {
 			inIndex += self.count;
 		}
@@ -140,24 +140,29 @@ PageTransitions.prototype = {
 		if( !self.support ) {
 			self.onEndAnimation( $outPage, $inPage );
 		}
-
-		//根据direction 和 type 添加动画
-		if( direction == 'vertical' ) {
-			if( type == 'next' ) {
-				$outPage.addClass( self.upOutClass );
-				$inPage.addClass( self.upInClass + ' pt-page-current' );
-			}else if( type == 'prev' ) {
-				$outPage.addClass( self.downOutClass );
-				$inPage.addClass( self.downInClass + ' pt-page-current' );
+		if(Modernizr.csstransforms3d) {//如果支持transform3d进行动画
+			//根据direction 和 type 添加动画
+			if( direction == 'vertical' ) {
+				if( type == 'next' ) {
+					$outPage.addClass( self.upOutClass );
+					$inPage.addClass( self.upInClass + ' pt-page-current' );
+				}else if( type == 'prev' ) {
+					$outPage.addClass( self.downOutClass );
+					$inPage.addClass( self.downInClass + ' pt-page-current' );
+				}
+			}else if( direction == 'horizonal') {
+				if( type == 'next' ) {
+					$outPage.addClass( self.leftOutClass );
+					$inPage.addClass( self.leftInClass + ' pt-page-current' );
+				}else if( type == 'prev' ) {
+					$outPage.addClass( self.rightOutClass );
+					$inPage.addClass( self.rightInClass + ' pt-page-current' );
+				}
 			}
-		}else if( direction == 'horizonal') {
-			if( type == 'next' ) {
-				$outPage.addClass( self.leftOutClass );
-				$inPage.addClass( self.leftInClass + ' pt-page-current' );
-			}else if( type == 'prev' ) {
-				$outPage.addClass( self.rightOutClass );
-				$inPage.addClass( self.rightInClass + ' pt-page-current' );
-			}
+		} else {	//不支持，则直接切换页面
+			$outPage.removeClass( this.selectors.current );
+			$inPage.addClass( this.selectors.current );
+			self.onEndAnimation( $outPage, $inPage );
 		}
 	},
 
