@@ -54,6 +54,7 @@ components为插件基础css文件
 
 ###可配置参数
 配置参数时，可以附加参数（非插件自带）
+
 	var config = {
 		element: '.pt-perspective', 	//PageTransitions元素
 		index: 0, 						//初始状态，当前元素
@@ -99,8 +100,8 @@ components为插件基础css文件
 
 
 ###事件
-	pt.on('afterSwitch',function(){
+	pt.on('afterSwitch',function(){		//页面过渡完成后，触发事件
 
 		//你的代码……
 
-	});		//页面过渡完成后，触发事件
+	});	
