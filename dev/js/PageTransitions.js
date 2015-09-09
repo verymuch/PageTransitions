@@ -312,7 +312,7 @@ PageTransitions.prototype = {
 		    transitionType = self.transitionType,
 		    direction = self.direction;
 		switch( transitionType ){
-		    /* 划入划出 */
+		    /* 滑入滑出 */
 		    case 'slide':
 		        if( direction == 'vertical' ){
 		            //向上滑动时，进入和离开页面的class

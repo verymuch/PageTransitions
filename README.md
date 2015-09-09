@@ -3,6 +3,7 @@ PageTransition是一款实现了手机浏览器中多种页面过渡效果的插
 
 ##如何使用？
 ###demo演示
+在线演示（请按照第二步进行预览）[在线演示](http://qxu1589920370.my3w.com/PageTransitions/production/minhtml/test.min.html '页面过渡在线演示')
 1.  下载源码，使用chrome浏览器，打开dev目录下的test.html或者production目录下的test.min.html
 2.  请用正确的姿势打开————使用手机模拟预览（参考下图）
 	* F12打开开发者工具
@@ -58,6 +59,31 @@ components为插件基础css文件
 		direction: 'vertical',			//页面过渡方向，默认为垂直方向
 		transitionType: 'slide',		//切换页面的过渡效果吗，默认为slide
 	}
+
+###过渡类型可选参数
+|类型	|效果描述	|
+|-----------:|:----	|
+|slide	|滑入滑出	|
+|fadeOutSlideIn	|淡入滑出	|
+|fade	|淡入淡出	|
+|easingOutSlideIn	|渐出滑入	|
+|scaleDownOutSlideIn	|缩小退出 滑入	|
+|scaleDown	|缩小进入、退出	|
+|scaleUp	|放大进入、退出	|
+|scaleUpInSlideOut	|放大进入 滑动退出	|
+|scaleUpInScaleDownOut	|放大进入、缩小退出	|
+|SlideInRotateOut	|以各边旋转退出 滑动进入	|
+|flip	|翻转进入、退出	|
+|rotateFall	|旋转掉落	|
+|rotateCircle	|转圈进入、退出	|
+|slideInPushOut	|滑动进入、推门而出	|
+|pullInPushOut	|拉门而入、推门而出	|
+|slideFadeInFoldOut	|淡入滑动而入、打开而出	|
+|foldInSlideFadeOut	|关闭而入、淡入滑动而出 |
+|room	|魔方而入、魔方而出	|
+|carousel	|飞入、飞出	|
+|side	|挤入挤出	|
+
 
 ###开启页面过渡
 	pt = PageTransitions(config);
