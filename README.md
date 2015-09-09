@@ -4,6 +4,7 @@ PageTransition是一款实现了手机浏览器中多种页面过渡效果的插
 ##如何使用？
 ###demo演示
 在线演示（请按照第二步进行预览）[在线演示](http://qxu1589920370.my3w.com/PageTransitions/production/minhtml/test.min.html '页面过渡在线演示')
+
 1.  下载源码，使用chrome浏览器，打开dev目录下的test.html或者production目录下的test.min.html
 2.  请用正确的姿势打开————使用手机模拟预览（参考下图）
 	* F12打开开发者工具
