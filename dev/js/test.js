@@ -4,15 +4,15 @@ $(function(){
 		index: 1,
 		loop: true,
 		direction: 'vertical', 		//默认为垂直
-		transitionType: 'side'
+		transitionType: 'carousel'
 	});
-
+	console.log(a);
 	a.$element.on('afterSwitch',function(){
 		console.log('页面过渡完成');
 		console.log(a);
 	});
 	
-	setTimeout(function(){
-		a.switch(-1);
-	},1000);
+	// setTimeout(function(){
+	// 	a.switch(-1);
+	// },1000);
 });
