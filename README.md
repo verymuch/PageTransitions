@@ -53,12 +53,14 @@ components为插件基础css文件
 	<link rel="stylesheet" href="../../production/mincss/components.min.css">
 
 ###可配置参数
+配置参数时，可以附加参数（非插件自带）
 	var config = {
 		element: '.pt-perspective', 	//PageTransitions元素
 		index: 0, 						//初始状态，当前元素
 		loop: false,					//是否可循环，默认为false，不可循环
 		direction: 'vertical',			//页面过渡方向，默认为垂直方向
 		transitionType: 'slide',		//切换页面的过渡效果吗，默认为slide
+		example: '附加参数'				//可以附加参数，使用者使用
 	}
 
 ###页面过渡效果可选参数
@@ -87,14 +89,18 @@ components为插件基础css文件
 
 
 ###开启页面过渡
-	pt = PageTransitions(config);
+	pt = PageTransitions(config);	//config如上配置参数
 
 ###对外接口方法
 
 * pt.next();			//切换到下一页
 * pt.prev();			//切换到上一页
-* pt.switch;			//切换到指定页，传入参数n，n可以为负数（从后面开始计数，-1为最后一页）
+* pt.switch();			//切换到指定页，传入参数n，n可以为负数（从后面开始计数，-1为最后一页）
 
 
 ###事件
-	pt.on('afterSwitch',function(){});		//页面过渡完成后，触发事件
+	pt.on('afterSwitch',function(){
+
+		//你的代码……
+
+	});		//页面过渡完成后，触发事件
