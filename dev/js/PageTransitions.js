@@ -1,6 +1,7 @@
 (function( window, undefined ) {
 
-var version = '0.0.1',
+var document = window.document,
+	version = '0.0.1',
 
 	_PageTransitions = window.pageTransitions ,	//防冲突备用
 
@@ -237,6 +238,13 @@ PageTransitions.prototype = {
 	bindSwipeEvent: function() {
 		var self = this,
 			direction = self.direction;
+
+		/*
+			在手机浏览器下，touchmove事件，需要在阻止document触发touchmove事件，才能在元素上触发touchmove事件
+		 */
+		document.addEventListener('touchmove', function (event) {
+                       event.preventDefault();
+                    }, false);
 
 		if( direction == 'vertical' ) {
 		    self.$ptPages.on({
