@@ -40,13 +40,24 @@ PageTransitions.prototype = {
 			selectors = self.selectors;
 
 		/*** 初始化配置属性 ***/
-		if( config && $.isPlainObject( config ) ) {
-			for( var option in config ) {
-				if( option in self ) {	//只配置PageTransitions设有的配置属性
-					this[ option ] = config[ option ];
-				}
-			}
-		}
+
+		/* 单独实现的扩展 只扩展自身存在的属性值 */
+		// if( config && $.isPlainObject( config ) ) {
+		// 	for( var option in config ) {
+		// 		if( option in self ) {	//只配置PageTransitions设有的配置属性
+
+		// 			if( $.isPlainObject( config[ option ] ) ) { //当config中的属性为对象值时
+		// 				$.extend( true, this[ option ], config[ option ] );
+		// 			}else {
+		// 				this[ option ] = config[ option ];						
+		// 			}
+
+		// 		}
+		// 	}
+		// }
+
+		/* 使用extend扩展config到this */
+		$.extend(true, this, config);
 
 		//初始化DOM, 页面过渡所有页面
 		/*** 需要优先执行，后续需要使用$element来注册事件 **/

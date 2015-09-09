@@ -4,7 +4,11 @@ $(function(){
 		index: 1,
 		loop: true,
 		direction: 'vertical', 		//默认为垂直
-		transitionType: 'carousel'
+		transitionType: 'carousel',
+		selectors: {
+			ptPage: 'pt-page'
+		},
+		test: 'aaaa'
 	});
 	console.log(a);
 	a.$element.on('afterSwitch',function(){
