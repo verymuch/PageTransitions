@@ -3,13 +3,24 @@ $(function(){
 		element: $("#pt-main"),
 		index: 1,
 		loop: true,
-		direction: 'vertical', 		//默认为垂直
+		direction: 'horizonal', 		//默认为垂直
 		transitionType: 'rotateCircle',
 		selectors: {
 			ptPage: 'pt-page'
 		},
 		test: 'aaaa'
 	});
+	// var b = PageTransitions({
+	// 	element: $(".pt-pt"),
+	// 	index: 1,
+	// 	loop: true,
+	// 	direction: 'horizonal', 		//默认为垂直
+	// 	transitionType: 'rotateCircle',
+	// 	selectors: {
+	// 		ptPage: 'pt-page'
+	// 	},
+	// 	test: 'aaaa'
+	// });
 	// a.upInClass = "pt-page-rotateInNewspaper"
 	console.log(a);
 	a.$element.on('afterSwitch',function(){
@@ -17,7 +28,7 @@ $(function(){
 		console.log(a);
 	});
 	
-	setTimeout(function(){
-		a.switch(-1);
-	},1000);
+	// setTimeout(function(){
+	// 	a.switch(-1);
+	// },1000);
 });

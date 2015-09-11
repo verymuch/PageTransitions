@@ -612,18 +612,18 @@ PageTransitions.prototype = {
 		    case 'cube':
 		        if( direction == 'vertical' ){
 		            //向上滑动时，进入和离开页面的class
-		            self.upInClass = 'pt-page-rotateCubeTopIn';
-		            self.upOutClass = 'pt-page-rotateCubeTopOut pt-page-ontop';
+		            self.upInClass = 'pt-page-rotateCubeTopIn pt-page-transform3d';
+		            self.upOutClass = 'pt-page-rotateCubeTopOut pt-page-transform3d pt-page-ontop';
 		            //向下滑动时，进入和离开页面的class
-		            self.downInClass = 'pt-page-rotateCubeBottomIn';
-		            self.downOutClass = 'pt-page-rotateCubeBottomOut pt-page-ontop';
+		            self.downInClass = 'pt-page-rotateCubeBottomIn pt-page-transform3d';
+		            self.downOutClass = 'pt-page-rotateCubeBottomOut pt-page-transform3d pt-page-ontop';
 		        }else if( direction == 'horizonal' ){
 		            //向左滑动时，进入和离开页面的class
-		            self.leftInClass = 'pt-page-rotateCubeLeftIn';
-		            self.leftOutClass = 'pt-page-rotateCubeLeftOut pt-page-ontop';
+		            self.leftInClass = 'pt-page-rotateCubeLeftIn pt-page-transform3d';
+		            self.leftOutClass = 'pt-page-rotateCubeLeftOut pt-page-transform3d pt-page-ontop';
 		            //向右滑动时，进入和离开页面的class
-		            self.rightInClass = 'pt-page-rotateCubeRightIn';
-		            self.rightOutClass = 'pt-page-rotateCubeRightOut pt-page-ontop';
+		            self.rightInClass = 'pt-page-rotateCubeRightIn pt-page-transform3d';
+		            self.rightOutClass = 'pt-page-rotateCubeRightOut pt-page-transform3d pt-page-ontop';
 		        }
 		        break;
 		    /* 飞入、飞出 */

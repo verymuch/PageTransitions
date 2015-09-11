@@ -20,22 +20,20 @@ html, body { height: 100%; }
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	backface-visibility: hidden;
-	-webkit-transform: translate3d(0, 0, 0);
-	-moz-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
 
-.pt-page-current,
-.no-js .pt-page {
-	visibility: visible;
-	z-index: 1;
+.pt-page-transform3d {
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 
-.no-js body {
-	overflow: auto;
+.pt-page-current {
+	visibility: visible;
+	z-index: 1;
 }
 
 .pt-page-ontop {
